@@ -3,19 +3,23 @@ POST http://localhost:3000/auth/singup
 Content-Type: application/json
 
 {
-  "email": "test_4@example.com",
+  "email": "test_12@example.com",
   "password": "4321",
   "hello": "21"
 }
 
-### Singin an User
+### Singin an existing user
 POST http://localhost:3000/auth/singin
 Content-Type: application/json
 
 {
-  "email": "test_4@example.com",
+  "email": "test_7@example.com",
   "password": "4321"
 }
+
+### Singout the existing user
+POST http://localhost:3000/auth/signout
+Content-Type: application/json
 
 
 ### Find a particular user with id
@@ -34,3 +38,7 @@ Content-Type: application/json
 {
   "email": "tt3@example.com"
 }
+
+### Who I Am
+GET http://localhost:3000/auth/whoami
+Content-Type: application/json

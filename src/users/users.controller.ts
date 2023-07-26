@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  Session,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -25,14 +26,33 @@ export class UsersController {
     private readonly authService: AuthService,
   ) {}
 
-  @Post('singup')
-  createUser(@Body() body: CreateUserDto) {
-    return this.authService.signup(body.email, body.password);
+  @Get('/whoami')
+  whoAmI(@Session() session: any) {
+    const user = this.usersService.findOne(session.userId);
+    if (!user) {
+      throw new NotFoundException('You are not sing in.');
+    }
+
+    return user;
   }
 
-  @Post('singin')
-  singinUser(@Body() body: SinginUserDto) {
-    return this.authService.signin(body.email, body.password);
+  @Post('/signout')
+  singOut(@Session() session: any) {
+    session.userId = null;
+  }
+
+  @Post('/singup')
+  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signup(body.email, body.password);
+    session.userId = user.id;
+    return user;
+  }
+
+  @Post('/singin')
+  async singInUser(@Body() body: SinginUserDto, @Session() session: any) {
+    const user = await this.authService.signin(body.email, body.password);
+    session.userId = user.id;
+    return user;
   }
 
   @Get('/:id')
