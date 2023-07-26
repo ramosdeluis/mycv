@@ -7,21 +7,32 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserDTO } from './dtos/user.dto';
 import { Serialize } from '../interceptors/serialize.interceptor';
+import { AuthService } from './auth.service';
+import { SinginUserDto } from './dtos/singin-user.dto';
 
 @Controller('auth')
 @Serialize(UserDTO)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post('singup')
   createUser(@Body() body: CreateUserDto) {
-    return this.usersService.create(body.email, body.password);
+    return this.authService.signup(body.email, body.password);
+  }
+
+  @Post('singin')
+  singinUser(@Body() body: SinginUserDto) {
+    return this.authService.signin(body.email, body.password);
   }
 
   @Get('/:id')
@@ -35,8 +46,8 @@ export class UsersController {
   }
 
   @Get('')
-  findAllUsers() {
-    return this.usersService.find();
+  findAllUsers(@Query('email') email: string) {
+    return this.usersService.find(email);
   }
 
   @Patch('/:id')
