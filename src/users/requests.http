@@ -3,7 +3,7 @@ POST http://localhost:3000/auth/singup
 Content-Type: application/json
 
 {
-  "email": "test_12@example.com",
+  "email": "test_15@example.com",
   "password": "4321",
   "hello": "21"
 }
