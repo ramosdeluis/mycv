@@ -1,15 +1,9 @@
-import { IsEmail, IsStrongPassword } from 'class-validator';
+import { IsEmail, IsString } from 'class-validator';
 
-export class SinginUserDto {
+export class SigninUserDto {
   @IsEmail()
   email: string;
 
-  @IsStrongPassword({
-    minLength: 0,
-    minLowercase: 0,
-    minNumbers: 4,
-    minSymbols: 0,
-    minUppercase: 0,
-  })
+  @IsString()
   password: string;
 }

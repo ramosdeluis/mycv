@@ -17,10 +17,10 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserDTO } from './dtos/user.dto';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
-import { SinginUserDto } from './dtos/singin-user.dto';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from './user.entity';
 import { AuthGuard } from '../guards/auth.guard';
+import { SigninUserDto } from './dtos/singin-user.dto';
 
 @Controller('auth')
 @Serialize(UserDTO)
@@ -34,26 +34,26 @@ export class UsersController {
   @UseGuards(AuthGuard)
   whoAmI(@CurrentUser() user: User) {
     if (!user) {
-      throw new NotFoundException('You are not sing in.');
+      throw new NotFoundException('You are not sign in.');
     }
 
     return user;
   }
 
   @Post('/signout')
-  singOut(@Session() session: any) {
+  signOut(@Session() session: any) {
     session.userId = null;
   }
 
-  @Post('/singup')
+  @Post('/signup')
   async createUser(@Body() body: CreateUserDto, @Session() session: any) {
     const user = await this.authService.signup(body.email, body.password);
     session.userId = user.id;
     return user;
   }
 
-  @Post('/singin')
-  async singInUser(@Body() body: SinginUserDto, @Session() session: any) {
+  @Post('/signin')
+  async signInUser(@Body() body: SigninUserDto, @Session() session: any) {
     const user = await this.authService.signin(body.email, body.password);
     session.userId = user.id;
 

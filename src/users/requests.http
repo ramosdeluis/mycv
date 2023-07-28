@@ -1,5 +1,5 @@
 ### Create a new user
-POST http://localhost:3000/auth/singup
+POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
@@ -8,8 +8,8 @@ Content-Type: application/json
   "hello": "21"
 }
 
-### Singin an existing user
-POST http://localhost:3000/auth/singin
+### signin an existing user
+POST http://localhost:3000/auth/signin
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
   "password": "4321"
 }
 
-### Singout the existing user
+### signout the existing user
 POST http://localhost:3000/auth/signout
 Content-Type: application/json
 
