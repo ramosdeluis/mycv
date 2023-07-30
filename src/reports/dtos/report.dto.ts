@@ -1,4 +1,5 @@
 import { Expose, Transform } from 'class-transformer';
+import { IsBoolean } from 'class-validator';
 
 export class ReportDto {
   @Expose()
@@ -17,6 +18,9 @@ export class ReportDto {
   make: string;
   @Expose()
   model: string;
+
+  @Expose()
+  approved: boolean;
 
   @Transform(({ obj }) => obj.user.id)
   @Expose()
